@@ -1,0 +1,50 @@
+1) Find all the players who played in a Miami team but never in a Dallas team. 
+Note that there may be multiple teams in a city. Return the players’ ilkid, first name, and last name.
+
+SELECT 
+FROM
+WHERE
+
+
+
+2) Find the players who only played between years 2000 to 2004. Return ilkid, last name, first name, 
+and order the results by (last_name, first_name);
+
+
+3) For each college, print the college name and average number of drafts (per season) they sent to the NBA. 
+However, only report those colleges that sent drafts in at least 3 seasons.
+
+
+4) Find the coach(es) who have coached the most teams between the years 1985 to 1990. 
+Return the coach(es) cid, first name , and last name
+
+
+5) Find the coach(es) who achieved the most wins (season + playoff) in their first year with a team. 
+Return their cid, first name, last name, and total wins (season + playoff) in the first year.
+
+
+6) find the coach(es) who achieved the highest INCREASE in the number of wins (season + playoff) in their first year with a team. 
+That is the coach's number in their first year with the team minus the team's number in the previous year with another coach. 
+Return their cid, first name, last name, and the improvement over the previous year.
+
+
+7)  List the top 5 shortest players. Return their last and first names and their heights in centimeters.
+
+
+8)  List the coaches who coached in all leagues. 
+Use the method introduced in class with 'NOT EXISTS -- EXCEPT -- ..."; Return the coaches’ cid, first name, and last name
+
+
+9)  Same as in query 8, but use a different approach;
+
+
+10)  Find the tallest player of each team in the year 2000. Return the team tid, team name, 
+player’s first name, player’s last name, and player’s height. Sort the result by the team name.
+
+
+11)  List the top 3 players who scored the most points in history. Return their last and first names and the points 
+they scored (hint: use"order by" to sort the results and 'limit xxx' to limit the number of rows returned);
+
+
+12)  Print the first and last names of those who either scored more than 12000 points in their careers or 
+played for more than 12 seasons.
