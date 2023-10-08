@@ -45,7 +45,8 @@ create table player_rs (ilkid varchar(30), year int, firstname varchar(30), last
 
 
 -- 3
--- skip for now!
+
+-- REDOREDOREDO
 -- SELECT p.college AS college_name, COUNT(DISTINCT d.draft_year) / COUNT(DISTINCT p.first_season) AS avg_drafts_per_season
 -- FROM players p
 -- JOIN draft d ON p.ilkid = d.ilkid
@@ -67,22 +68,105 @@ create table player_rs (ilkid varchar(30), year int, firstname varchar(30), last
 -- WHERE CT.team_count = (SELECT MAX(team_count) FROM CoachTeamCount);
 
 
--- 7
+-- 7. 
 -- SELECT firstname, lastname, (h_feet * 30.48 + h_inches * 2.54) AS height_cm
 -- FROM players
--- ORDER BY height_cm
+-- ORDER BY height_cm 
 -- LIMIT 5;
 
 
 -- 8 
-SELECT DISTINCT cs.cid, cs.firstname, cs.lastname
-FROM coaches_season cs
-WHERE NOT EXISTS (
-    SELECT DISTINCT t.league
-    FROM teams t
-    WHERE t.tid = cs.tid
-)
-ORDER BY cs.cid;
+-- SELECT DISTINCT CS.cid, CS.firstname, CS.lastname
+-- FROM coaches_season CS
+-- WHERE NOT EXISTS (
+--     (SELECT DISTINCT league
+--     FROM teams)
+--     EXCEPT
+--     (SELECT DISTINCT T1.league
+--     FROM teams T1
+--     WHERE T1.tid = cs.tid)
+-- );
 
 
 
+--9 
+-- SELECT CS.cid, CS.firstname, CS.lastname
+-- FROM coaches_season CS, teams T
+-- WHERE CS.tid = T.tid
+-- GROUP BY CS.cid, CS.firstname, CS.lastname
+-- HAVING COUNT(DISTINCT T.league) =  (SELECT COUNT(DISTINCT league) FROM teams);
+
+
+--10 
+-- WITH PlayersHeight AS 
+-- (
+--     SELECT ilkid, firstname, lastname, 
+--     (h_feet * 30.48 + h_inches * 2.54) AS height_cm
+--     FROM players
+-- ),
+
+-- TallestPlayers AS
+-- (
+--     SELECT
+--         T.tid, T.name,
+--         P.firstname, P.lastname, P.height_cm,
+--         ROW_NUMBER() OVER (PARTITION BY T.tid ORDER BY P.height_cm DESC) AS RN
+--     FROM PlayersHeight P, player_rs PR, teams T
+--     WHERE P.ilkid = PR.ilkid AND PR.tid = T.tid AND PR.year = 2000
+-- )
+
+-- SELECT tid, name, firstname, lastname, height_cm
+-- FROM TallestPlayers
+-- WHERE RN = 1
+-- ORDER BY name;
+
+
+
+
+-- 11
+-- SELECT firstname, lastname, pts
+-- FROM player_rs_career
+-- ORDER BY pts DESC
+-- LIMIT 3;
+
+
+-- 12
+
+-- WITH Players_12s AS 
+-- (
+--     SELECT ilkid, firstname, lastname 
+--     FROM players
+--     WHERE (last_season - first_season + 1) > 12
+-- ),
+
+-- Players_12k AS 
+-- (
+--     SELECT ilkid, firstname, lastname 
+--     FROM player_rs_career
+--     WHERE pts > 12000
+-- )
+
+-- SELECT firstname, lastname 
+-- FROM (SELECT * FROM Players_12k UNION SELECT * FROM Players_12s) AS CombinedPlayers;
+
+
+
+
+
+
+
+
+
+-- TESTING
+-- 10
+-- WITH PlayersHeight AS 
+-- (
+--     SELECT ilkid, firstname, lastname, 
+--     (h_feet * 30.48 + h_inches * 2.54) AS height_cm
+--     FROM players
+-- )
+
+-- SELECT T.tid, T.name, P.firstname, P.lastname, MAX(P.height_cm)
+-- FROM PlayersHeight P, player_rs PR, teams T
+-- WHERE P.ilkid = PR.ilkid AND PR.tid = T.tid AND PR.year = 2000
+-- GROUP BY T.tid, T.name, P.firstname, P.lastname, P.height_cm;
